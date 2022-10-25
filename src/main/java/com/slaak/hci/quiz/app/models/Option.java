@@ -1,8 +1,15 @@
 package com.slaak.hci.quiz.app.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Data;
 
 @Data
+@Entity
 public class Option {
-    //TODO: need to implement
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long optionId;
 }
