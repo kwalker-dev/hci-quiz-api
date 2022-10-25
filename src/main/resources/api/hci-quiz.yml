@@ -1,0 +1,86 @@
+openapi: 3.0.1
+info:
+  title: SLAAK Quiz
+  description: Quiz CRUD API.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8082/api
+paths:
+  /quiz:
+    get:
+      summary: Get Questions
+      operationId: getQuestions
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+    post:
+      summary: Post Questions
+      operationId: postQuestions
+      requestBody:
+        description: save questions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Question'
+        required: true
+      responses:
+        200:
+          description: Questions Added
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      summary: Post Questions
+      operationId: putQuestions
+      requestBody:
+        description: save questions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Question'
+        required: true
+      responses:
+        200:
+          description: Questions Added
+          content:
+            application/json:
+              schema:
+                type: string
+      x-codegen-request-body-name: questions
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        QuestionId:
+          type: integer
+          format: int64
+        QuestionNum:
+          type: integer
+        Question:
+          type: string
+        Options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+    Option:
+      type: object
+      properties:
+        Value:
+          type: string
+        Selected:
+          type: boolean
+          default: false
+        IsCorrect:
+          type: boolean
