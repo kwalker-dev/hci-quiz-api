@@ -82,5 +82,5 @@ components:
         Selected:
           type: boolean
           default: false
-        IsCorrect:
+        Correct:
           type: boolean

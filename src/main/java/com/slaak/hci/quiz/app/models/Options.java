@@ -14,12 +14,16 @@ import java.time.LocalDateTime;
 public class Options {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long option_id;
-    @Column(updatable = false, insertable = false)
-    private Long question_id;
-    private String opt_value;
-    private boolean opt_selected;
-    private boolean opt_correct;
+    @Column(name = "option_id" )
+    private Long optionId;
+    @Column(name = "question_id", updatable = false, insertable = false)
+    private Long questionId;
+    @Column(name = "opt_value")
+    private String value;
+    @Column(name = "opt_selected")
+    private boolean selected;
+    @Column(name = "opt_correct")
+    private boolean correct;
     @CreatedDate
     private LocalDateTime start_ts;
     private LocalDateTime end_ts;

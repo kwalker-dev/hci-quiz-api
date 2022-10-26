@@ -14,11 +14,13 @@ import java.util.Set;
 public class Questions {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long question_Id;
-    @Column(updatable = false, insertable = false)
-    private Long quiz_id;
+    @Column(name = "question_Id")
+    private Long questionId;
+    @Column(name = "quiz_id", updatable = false, insertable = false)
+    private Long quizId;
     private String question;
-    private Integer question_num;
+    @Column(name = "question_num")
+    private Integer questionNum;
     @CreatedDate
     private LocalDateTime start_ts;
     private LocalDateTime end_ts;

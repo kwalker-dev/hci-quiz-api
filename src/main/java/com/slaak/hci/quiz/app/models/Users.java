@@ -14,8 +14,10 @@ import java.util.Set;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
-    private String user_name;
+    @Column(name = "user_id" )
+    private Long userId;
+    @Column(name = "user_name" )
+    private String userName;
     @CreatedDate
     private LocalDateTime start_ts;
     private LocalDateTime end_ts;

@@ -14,12 +14,16 @@ import java.util.Set;
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quiz_id;
-    @Column(updatable = false, insertable = false)
-    private Long user_id;
-    private Integer questions_total;
-    private Integer questions_correct;
-    private Integer time_total;
+    @Column(name = "quiz_id" )
+    private Long quizId;
+    @Column(name = "user_id", updatable = false, insertable = false)
+    private Long userId;
+    @Column(name = "questions_total" )
+    private Integer questionsTotal;
+    @Column(name = "questions_correct" )
+    private Integer questionsCorrect;
+    @Column(name = "time_total" )
+    private Integer timeTotal;
     @CreatedDate
     private LocalDateTime start_ts;
     private LocalDateTime end_ts;
