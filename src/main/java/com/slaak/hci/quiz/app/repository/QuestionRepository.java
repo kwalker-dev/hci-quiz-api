@@ -13,6 +13,7 @@ public interface QuestionRepository extends JpaRepository<Questions, Long> {
             + "JOIN FETCH q.options o "
             + "JOIN q.quiz qz "
             + "JOIN qz.user u "
-            + "WHERE qz.quizId = :quizId")
-    List<Questions> getQuestionsByQuizId(Long quizId);
+            + "WHERE u.userName = :userName "
+            + "AND u.end_ts is NULL")
+    List<Questions> getQuestionsByUserName(String userName);
 }
