@@ -6,10 +6,10 @@ info:
 servers:
   - url: http://localhost:8082/api
 paths:
-  /user/{userName}/questions:
+  /user/{userName}/quizResult:
     get:
-      summary: Get Questions
-      operationId: getQuestions
+      summary: Get Quiz Result
+      operationId: getQuizResult
       parameters:
         - name: userName
           in: path
@@ -22,9 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
+                  $ref: '#/components/schemas/QuizResult'
     post:
       summary: Post Questions
       operationId: postQuestions
@@ -112,3 +110,18 @@ components:
         OptionId:
           type: integer
           format: int64
+    QuizResult:
+      type: object
+      properties:
+        QuizId:
+          type: integer
+        QuestionsTotal:
+          type: integer
+        QuestionsCorrect:
+          type: integer
+        TimeTotal:
+          type: integer
+        Questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'

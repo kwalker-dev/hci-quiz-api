@@ -36,6 +36,6 @@ public class Quiz {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "question")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "quiz")
     private Set<Questions> questions;
 }

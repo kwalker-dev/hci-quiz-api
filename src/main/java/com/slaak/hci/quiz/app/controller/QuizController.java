@@ -5,6 +5,7 @@ import com.slaak.quiz.api.UserApi;
 import com.slaak.quiz.api.model.Answer;
 import com.slaak.quiz.api.model.PostQuestion;
 import com.slaak.quiz.api.model.Question;
+import com.slaak.quiz.api.model.QuizResult;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,9 @@ import java.util.Optional;
 public class QuizController implements UserApi {
     final private QuestionService questionService;
     @Override
-    public ResponseEntity<List<Question>> getQuestions(String userName) {
-        List<Question> questions =  questionService.getQuestions(userName);
-
-        return ResponseEntity.of(Optional.of(questions));
+    public ResponseEntity<QuizResult> getQuizResult(String userName) {
+        final var result =  questionService.getQuizResult(userName);
+        return ResponseEntity.of(Optional.of(result));
     }
 
     @Override

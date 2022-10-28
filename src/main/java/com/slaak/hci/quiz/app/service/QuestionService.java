@@ -1,6 +1,7 @@
 package com.slaak.hci.quiz.app.service;
 
 import com.slaak.hci.quiz.app.mapper.QuestionMapper;
+import com.slaak.hci.quiz.app.mapper.QuizResultMapper;
 import com.slaak.hci.quiz.app.models.Questions;
 import com.slaak.hci.quiz.app.models.Quiz;
 import com.slaak.hci.quiz.app.models.Users;
@@ -11,6 +12,7 @@ import com.slaak.hci.quiz.app.repository.QuizRepository;
 import com.slaak.hci.quiz.app.repository.UsersRepository;
 import com.slaak.quiz.api.model.Answer;
 import com.slaak.quiz.api.model.Question;
+import com.slaak.quiz.api.model.QuizResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,10 +31,11 @@ public class QuestionService {
     private final UsersRepository userRepo;
     private final OptionRepository optionRepo;
     private final QuestionMapper questionMapper;
+    private final QuizResultMapper quizResultMapper;
 
-    public List<Question> getQuestions(final String userName) {
-        return questionRepo.getQuestionsByUserName(userName).stream()
-                .map(questionMapper::toQuestionFromQuestions).collect(Collectors.toList());
+    public QuizResult getQuizResult(final String userName) {
+        final var quiz = quizRepo.findActvQuiz(userName);
+        return quizResultMapper.toQuizResultFromQuiz(quiz);
     }
 
     public List<Question> postQuestions(final String userName) {
