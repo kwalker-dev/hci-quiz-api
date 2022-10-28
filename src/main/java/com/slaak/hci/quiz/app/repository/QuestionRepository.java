@@ -14,6 +14,7 @@ public interface QuestionRepository extends JpaRepository<Questions, Long> {
             + "JOIN q.quiz qz "
             + "JOIN qz.user u "
             + "WHERE u.userName = :userName "
-            + "AND u.end_ts is NULL")
+            + "AND u.end_ts is NULL "
+            + "AND qz.end_ts is NULL ")
     List<Questions> getQuestionsByUserName(String userName);
 }
