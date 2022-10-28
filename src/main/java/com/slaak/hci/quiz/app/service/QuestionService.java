@@ -5,9 +5,11 @@ import com.slaak.hci.quiz.app.models.Questions;
 import com.slaak.hci.quiz.app.models.Quiz;
 import com.slaak.hci.quiz.app.models.Users;
 import com.slaak.hci.quiz.app.models.api.TriviaApiResponse;
+import com.slaak.hci.quiz.app.repository.OptionRepository;
 import com.slaak.hci.quiz.app.repository.QuestionRepository;
 import com.slaak.hci.quiz.app.repository.QuizRepository;
 import com.slaak.hci.quiz.app.repository.UsersRepository;
+import com.slaak.quiz.api.model.Answer;
 import com.slaak.quiz.api.model.Question;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class QuestionService {
     private final QuestionRepository questionRepo;
     private final QuizRepository quizRepo;
     private final UsersRepository userRepo;
+    private final OptionRepository optionRepo;
     private final QuestionMapper questionMapper;
 
     public List<Question> getQuestions(final String userName) {
@@ -61,6 +64,26 @@ public class QuestionService {
         questionRepo.saveAll(triviaQuestions);
         return triviaQuestions.stream()
                 .map(questionMapper::toQuestionFromQuestions).collect(Collectors.toList());
+    }
+
+    public void putAnswers(final String userName, final List<Answer> answers) {
+        int correct = 0;
+        for (Answer answer : answers) {
+            final var optionOpt = optionRepo.findById(answer.getOptionId());
+            if (optionOpt.isPresent()) {
+                final var option = optionOpt.get();
+                option.setSelected(true);
+                optionRepo.save(option);
+                if (option.isCorrect()) {
+                    correct++;
+                }
+            }
+
+        }
+
+        final var quiz = quizRepo.findActvQuiz(userName);
+        quiz.setQuestionsCorrect(correct);
+        quizRepo.save(quiz);
     }
 
     private List<Questions> callTriviaApi() {

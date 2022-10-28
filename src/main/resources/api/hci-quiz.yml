@@ -51,8 +51,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Question'
     put:
-      summary: Post Questions
-      operationId: putQuestions
+      summary: Submit Answers
+      operationId: putAnswers
       parameters:
         - name: userName
           in: path
@@ -66,17 +66,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Question'
+                  $ref: '#/components/schemas/Answer'
         required: false
       responses:
         200:
-          description: Questions Added
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
+          description: Answer Updated
       x-codegen-request-body-name: questions
 components:
   schemas:
@@ -102,6 +96,9 @@ components:
     Option:
       type: object
       properties:
+        OptionId:
+          type: integer
+          format: int64
         Value:
           type: string
         Selected:
@@ -109,3 +106,9 @@ components:
           default: false
         Correct:
           type: boolean
+    Answer:
+      type: object
+      properties:
+        OptionId:
+          type: integer
+          format: int64

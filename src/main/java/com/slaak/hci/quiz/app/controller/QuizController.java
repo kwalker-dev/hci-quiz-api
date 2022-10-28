@@ -1,11 +1,12 @@
 package com.slaak.hci.quiz.app.controller;
 
-import com.slaak.hci.quiz.app.mapper.QuestionMapper;
 import com.slaak.hci.quiz.app.service.QuestionService;
 import com.slaak.quiz.api.UserApi;
+import com.slaak.quiz.api.model.Answer;
 import com.slaak.quiz.api.model.PostQuestion;
 import com.slaak.quiz.api.model.Question;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +21,6 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class QuizController implements UserApi {
     final private QuestionService questionService;
-    final private QuestionMapper questionMapper;
-
     @Override
     public ResponseEntity<List<Question>> getQuestions(String userName) {
         List<Question> questions =  questionService.getQuestions(userName);
@@ -36,8 +35,8 @@ public class QuizController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<Question>> putQuestions(String userName, List<Question> question) {
-        return UserApi.super.putQuestions(userName, question);
+    public ResponseEntity<Void> putAnswers(String userName, List<Answer> answers) {
+        questionService.putAnswers(userName,answers);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
