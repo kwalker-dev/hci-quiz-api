@@ -29,8 +29,8 @@ public class QuizController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<Question>> postQuestions(String userName, PostQuestion postQuesti) {
-        List<Question> questions = questionService.postQuestions(userName);
+    public ResponseEntity<List<Question>> postQuestions(PostQuestion postQuestion) {
+        List<Question> questions = questionService.postQuestions(postQuestion.getUserName());
         return ResponseEntity.of(Optional.of(questions));
     }
 

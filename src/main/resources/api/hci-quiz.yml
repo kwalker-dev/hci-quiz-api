@@ -23,15 +23,10 @@ paths:
             application/json:
               schema:
                   $ref: '#/components/schemas/QuizResult'
+  /user/postQuestion:
     post:
       summary: Post Questions
       operationId: postQuestions
-      parameters:
-        - name: userName
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         description: save questions
         content:
@@ -48,6 +43,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Question'
+  /user/{userName}/putAnswers:
     put:
       summary: Submit Answers
       operationId: putAnswers

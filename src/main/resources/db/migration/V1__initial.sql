@@ -37,9 +37,9 @@ ALTER TABLE QUESTIONS ADD
 
 CREATE TABLE QUIZ (QUIZ_ID SERIAL,
                         USER_ID BIGINT,
-                        QUESTIONS_TOTAL INTEGER,
-                        QUESTIONS_CORRECT INTEGER,
-                        TIME_TOTAL INTEGER,
+                        QUESTIONS_TOTAL INTEGER DEFAULT 0,
+                        QUESTIONS_CORRECT INTEGER DEFAULT 0,
+                        TIME_TOTAL INTEGER DEFAULT 0,
                         START_TS TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP NOT NULL,
                         END_TS TIMESTAMP(6)
 )
