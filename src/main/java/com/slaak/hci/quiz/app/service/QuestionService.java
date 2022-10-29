@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +72,7 @@ public class QuestionService {
 
     public void putAnswers(final String userName, final List<Answer> answers) {
         int correct = 0;
-        for (Answer answer : answers) {
+        for (Answer answer : answers.stream().filter(Objects::nonNull).toList()) {
             final var optionOpt = optionRepo.findById(answer.getOptionId());
             if (optionOpt.isPresent()) {
                 final var option = optionOpt.get();
