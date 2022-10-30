@@ -2,10 +2,7 @@ package com.slaak.hci.quiz.app.controller;
 
 import com.slaak.hci.quiz.app.service.QuestionService;
 import com.slaak.quiz.api.UserApi;
-import com.slaak.quiz.api.model.Answer;
-import com.slaak.quiz.api.model.PostQuestion;
-import com.slaak.quiz.api.model.Question;
-import com.slaak.quiz.api.model.QuizResult;
+import com.slaak.quiz.api.model.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +32,7 @@ public class QuizController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Void> putAnswers(String userName, List<Answer> answers) {
+    public ResponseEntity<Void> putAnswers(String userName, SubmitAnswers answers) {
         questionService.putAnswers(userName,answers);
         return new ResponseEntity<>(HttpStatus.OK);
     }

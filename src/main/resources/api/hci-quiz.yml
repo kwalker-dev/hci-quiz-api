@@ -58,9 +58,7 @@ paths:
         content:
           application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Answer'
+                $ref: '#/components/schemas/SubmitAnswers'
         required: false
       responses:
         200:
@@ -100,6 +98,15 @@ components:
           default: false
         Correct:
           type: boolean
+    SubmitAnswers:
+      type: object
+      properties:
+        TimeTaken:
+          type: integer
+        Answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
     Answer:
       type: object
       properties:

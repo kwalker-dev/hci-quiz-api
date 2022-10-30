@@ -13,15 +13,13 @@ import com.slaak.hci.quiz.app.repository.UsersRepository;
 import com.slaak.quiz.api.model.Answer;
 import com.slaak.quiz.api.model.Question;
 import com.slaak.quiz.api.model.QuizResult;
+import com.slaak.quiz.api.model.SubmitAnswers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +34,9 @@ public class QuestionService {
 
     public QuizResult getQuizResult(final String userName) {
         final var quiz = quizRepo.findActvQuiz(userName);
-        return quizResultMapper.toQuizResultFromQuiz(quiz);
+        final var results = quizResultMapper.toQuizResultFromQuiz(quiz);
+        results.getQuestions().sort(Comparator.comparing(Question::getQuestionNum));
+        return results;
     }
 
     public List<Question> postQuestions(final String userName) {
@@ -53,6 +53,8 @@ public class QuestionService {
         final var quiz = new Quiz();
         quiz.setQuestionsTotal(triviaQuestions.size());
         quiz.setUser(user);
+        quiz.setQuestionsCorrect(0);
+        quiz.setTimeTotal(0);
         quiz.setStart_ts(LocalDateTime.now());
 
         final var savedQuiz = quizRepo.save(quiz);
@@ -65,14 +67,16 @@ public class QuestionService {
             questionNum++;
         }
 
-        questionRepo.saveAll(triviaQuestions);
-        return triviaQuestions.stream()
+        final var savedQuestions = questionRepo.saveAll(triviaQuestions);
+        savedQuestions.sort(Comparator.comparing(Questions::getQuestionNum));
+
+        return savedQuestions.stream()
                 .map(questionMapper::toQuestionFromQuestions).collect(Collectors.toList());
     }
 
-    public void putAnswers(final String userName, final List<Answer> answers) {
+    public void putAnswers(final String userName, final SubmitAnswers answers) {
         int correct = 0;
-        for (Answer answer : answers.stream().filter(Objects::nonNull).toList()) {
+        for (Answer answer : answers.getAnswers().stream().filter(Objects::nonNull).toList()) {
             final var optionOpt = optionRepo.findById(answer.getOptionId());
             if (optionOpt.isPresent()) {
                 final var option = optionOpt.get();
@@ -87,6 +91,7 @@ public class QuestionService {
 
         final var quiz = quizRepo.findActvQuiz(userName);
         quiz.setQuestionsCorrect(correct);
+        quiz.setTimeTotal(answers.getTimeTaken());
         quizRepo.save(quiz);
     }
 
