@@ -2,14 +2,12 @@ package com.slaak.hci.quiz.app.service;
 
 import com.slaak.hci.quiz.app.mapper.QuestionMapper;
 import com.slaak.hci.quiz.app.mapper.QuizResultMapper;
+import com.slaak.hci.quiz.app.models.ConnectionStatus;
 import com.slaak.hci.quiz.app.models.Questions;
 import com.slaak.hci.quiz.app.models.Quiz;
 import com.slaak.hci.quiz.app.models.Users;
 import com.slaak.hci.quiz.app.models.api.TriviaApiResponse;
-import com.slaak.hci.quiz.app.repository.OptionRepository;
-import com.slaak.hci.quiz.app.repository.QuestionRepository;
-import com.slaak.hci.quiz.app.repository.QuizRepository;
-import com.slaak.hci.quiz.app.repository.UsersRepository;
+import com.slaak.hci.quiz.app.repository.*;
 import com.slaak.quiz.api.model.Answer;
 import com.slaak.quiz.api.model.Question;
 import com.slaak.quiz.api.model.QuizResult;
@@ -29,6 +27,8 @@ public class QuestionService {
     private final QuizRepository quizRepo;
     private final UsersRepository userRepo;
     private final OptionRepository optionRepo;
+
+    private final ConnectionStatusRepository connectionStatusRepo;
     private final QuestionMapper questionMapper;
     private final QuizResultMapper quizResultMapper;
 
@@ -66,6 +66,8 @@ public class QuestionService {
             question.setStart_ts(LocalDateTime.now());
             questionNum++;
         }
+
+        updateConnectionStatus(user,true);
 
         final var savedQuestions = questionRepo.saveAll(triviaQuestions);
         savedQuestions.sort(Comparator.comparing(Questions::getQuestionNum));
@@ -125,6 +127,21 @@ public class QuestionService {
         }
 
         return user;
+    }
+
+    private void updateConnectionStatus(final Users user, final boolean isOnline) {
+        final var connectionStatus = connectionStatusRepo.findActvConnectionStatus(user.getUserName());
+
+        if (connectionStatus != null) {
+            connectionStatus.setEnd_ts(LocalDateTime.now());
+            connectionStatusRepo.save(connectionStatus);
+        }
+
+        final var newStatus = new ConnectionStatus();
+        newStatus.setUser(user);
+        newStatus.setOnline(isOnline);
+        newStatus.setStart_ts(LocalDateTime.now());
+        connectionStatusRepo.save(newStatus);
     }
 
     private void archivePrevQuiz(final String userName) {

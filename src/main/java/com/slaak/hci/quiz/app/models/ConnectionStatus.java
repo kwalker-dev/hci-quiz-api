@@ -7,28 +7,24 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
 @Entity
-public class Users {
+public class ConnectionStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id" )
+    @Column(name = "connection_status_id" )
+    private Long connectionStatusId;
+    @Column(name = "user_id", updatable = false, insertable = false)
     private Long userId;
-    @Column(name = "user_name" )
-    private String userName;
+    private boolean online;
     @CreatedDate
     private LocalDateTime start_ts;
     private LocalDateTime end_ts;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    private Set<Quiz> quizzes;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    private Set<ConnectionStatus> connectionStatuses;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 }
