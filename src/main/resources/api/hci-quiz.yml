@@ -64,6 +64,54 @@ paths:
         200:
           description: Answer Updated
       x-codegen-request-body-name: questions
+  /user/{userName}/updateConnectionStatus:
+    put:
+      summary: Update Connection Status
+      operationId: updateConnectionStatus
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: save questions
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                UserName:
+                  type: string
+        required: false
+      responses:
+        200:
+          description: ConnectionStatus Updated
+      x-codegen-request-body-name: questions
+  /user/{userName}/connectionStatus:
+    get:
+      summary: Update Connection Status
+      operationId: getConnectionStatus
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: save questions
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                UserName:
+                  type: string
+        required: false
+      responses:
+        200:
+          description: ConnectionStatus Updated
+      x-codegen-request-body-name: questions
 components:
   schemas:
     PostQuestion:
