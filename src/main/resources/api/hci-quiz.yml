@@ -87,7 +87,6 @@ paths:
       responses:
         200:
           description: ConnectionStatus Updated
-      x-codegen-request-body-name: questions
   /user/{userName}/connectionStatus:
     get:
       summary: Get Connection Status
