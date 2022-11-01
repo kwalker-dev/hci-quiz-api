@@ -38,14 +38,12 @@ public class QuizController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Void> getConnectionStatus(String userName, UpdateConnectionStatusRequest questions) {
-        // TODO: add logic here
-        return UserApi.super.getConnectionStatus(userName, questions);
+    public ResponseEntity<Void> getConnectionStatus(String userName, UpdateConnectionStatusRequest requestBody) {
+        return UserApi.super.getConnectionStatus(userName, requestBody);
     }
 
     @Override
-    public ResponseEntity<Void> updateConnectionStatus(String userName, UpdateConnectionStatusRequest questions) {
-        // TODO: add logic here
-        return UserApi.super.updateConnectionStatus(userName, questions);
+    public ResponseEntity<Void> updateConnectionStatus(String userName, UpdateConnectionStatusRequest requestBody) {
+        return UserApi.super.updateConnectionStatus(userName, requestBody);
     }
 }

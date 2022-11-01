@@ -75,7 +75,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: save questions
+        description: update connection status
         content:
           application/json:
             schema:
@@ -99,7 +99,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: save questions
+        description: update connection status
         content:
           application/json:
             schema:
