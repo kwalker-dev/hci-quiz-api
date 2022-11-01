@@ -8,10 +8,7 @@ import com.slaak.hci.quiz.app.models.Quiz;
 import com.slaak.hci.quiz.app.models.Users;
 import com.slaak.hci.quiz.app.models.api.TriviaApiResponse;
 import com.slaak.hci.quiz.app.repository.*;
-import com.slaak.quiz.api.model.Answer;
-import com.slaak.quiz.api.model.Question;
-import com.slaak.quiz.api.model.QuizResult;
-import com.slaak.quiz.api.model.SubmitAnswers;
+import com.slaak.quiz.api.model.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -39,11 +36,11 @@ public class QuestionService {
         return results;
     }
 
-    public List<Question> postQuestions(final String userName) {
+    public QuizQuestions postQuestions(final String userName) {
         final var triviaQuestions = callTriviaApi();
 
         if (triviaQuestions.isEmpty()) {
-            return List.of();
+            return new QuizQuestions();
         }
 
         final var user = getUser(userName);
@@ -72,8 +69,12 @@ public class QuestionService {
         final var savedQuestions = questionRepo.saveAll(triviaQuestions);
         savedQuestions.sort(Comparator.comparing(Questions::getQuestionNum));
 
-        return savedQuestions.stream()
-                .map(questionMapper::toQuestionFromQuestions).collect(Collectors.toList());
+        final var quizQuestions = new QuizQuestions();
+        quizQuestions.setQuizId(savedQuiz.getQuizId());
+        quizQuestions.setQuestions(savedQuestions.stream()
+                .map(questionMapper::toQuestionFromQuestions).collect(Collectors.toList()));
+
+        return quizQuestions;
     }
 
     public void putAnswers(final String userName, final SubmitAnswers answers) {

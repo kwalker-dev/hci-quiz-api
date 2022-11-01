@@ -40,9 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
+                  $ref: '#/components/schemas/QuizQuestions'
   /user/{userName}/putAnswers:
     put:
       summary: Submit Answers
@@ -111,6 +109,16 @@ components:
       properties:
         UserName:
           type: string
+    QuizQuestions:
+      type: object
+      properties:
+        QuizId:
+          type: integer
+          format: int64
+        Questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
     Question:
       type: object
       properties:
