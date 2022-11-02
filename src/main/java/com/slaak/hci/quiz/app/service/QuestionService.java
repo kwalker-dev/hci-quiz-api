@@ -129,7 +129,26 @@ public class QuestionService {
 
         return user;
     }
+    public ConnectionStatusResponse getConnectionStatus(String userName){
+        var connectionStatus = connectionStatusRepo.findActvConnectionStatus(userName);
+        ConnectionStatusResponse connectionStatusResponse = new ConnectionStatusResponse();
+        connectionStatusResponse.setStatus(connectionStatus.isOnline());
 
+        return connectionStatusResponse;
+    }
+
+    public void toggleConnectionStatus(String userName) {
+        var connectionStatus = connectionStatusRepo.findActvConnectionStatus(userName);
+
+        if (connectionStatus.isOnline()) {
+            connectionStatus.setOnline(false);
+        }
+        else {
+            connectionStatus.setOnline(true);
+        }
+
+        connectionStatusRepo.save(connectionStatus);
+    }
     private void updateConnectionStatus(final Users user, final boolean isOnline) {
         final var connectionStatus = connectionStatusRepo.findActvConnectionStatus(user.getUserName());
 

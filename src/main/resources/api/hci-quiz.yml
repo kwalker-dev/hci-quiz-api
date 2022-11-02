@@ -180,4 +180,4 @@ components:
       type: object
       properties:
         Status:
-          type: string
+          type: boolean
